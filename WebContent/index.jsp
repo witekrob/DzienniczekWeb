@@ -10,9 +10,9 @@
 	<h1>Witaj , jeśli chcesz dodać nowego ucznia, podaj poniżej jego
 		dane</h1>
 	<form action="AddToDbServlet">
-		<input type="text" name="name" value="podaj imie" required="required">
-		<input type="text" name="surname" value="podaj nazwisko" required="required"> 
-		<input type="text" name="pesel" value="podaj pesel" required="required"> 
+		<input type="text" name="name" title="podaj imie" required="required">
+		<input type="text" name="surname" title="podaj nazwisko" required="required"> 
+		<input type="text" name="pesel" title="podaj pesel" required="required"> 
 		<input type="submit" value="wyslij">
 
 	</form>
