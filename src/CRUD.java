@@ -15,16 +15,15 @@ import java.sql.ResultSet;
 public class CRUD {
 	getConnection connect = new getConnection();
 	Scanner input = new Scanner(System.in);
-
 	int a = PersonDatabase2.a;
-
-	public CRUD() {
+	Connection co = connect.connect();
+	
+	public CRUD() throws SQLException {
 	}
 
 	public LinkedList<Person2> getAllFromDb() throws SQLException {
-		Connection con = connect.connect();
 		String sqlQuery = "SELECT * from uczniowie";
-		PreparedStatement prepStat = con.prepareStatement(sqlQuery);
+		PreparedStatement prepStat = co.prepareStatement(sqlQuery);
 		ResultSet reSet = prepStat.executeQuery();
 		LinkedList<Person2> dbList = new LinkedList<Person2>();
 
@@ -55,15 +54,14 @@ public class CRUD {
 
 	public void delete() throws SQLException {
 
-		Connection con = connect.connect();
-
+		
 		System.out.println("podaj pesel osoby do usuniÄ™cia");
 		int pes = input.nextInt();
 		String deleteQuery = "DELETE FROM uczniowie WHERE pesel=?;";
-		PreparedStatement prepStmt = con.prepareStatement(deleteQuery);
+		PreparedStatement prepStmt = co.prepareStatement(deleteQuery);
 		prepStmt.setInt(1, pes);
 		int result = prepStmt.executeUpdate();
-		con.close();
+		co.close();
 	}
 
 	public void addNewOrUpdate() throws SQLException {
@@ -103,7 +101,6 @@ public class CRUD {
 	}
 
 	public void updateInDb(Person2 p) throws SQLException {
-		Connection conn = connect.connect();
 		String query = "UPDATE uczniowie SET name=?,surname=? WHERE pesel = ?;";
 
 		String name = p.getName();
@@ -112,12 +109,12 @@ public class CRUD {
 
 		System.out.println(p.toString());
 
-		PreparedStatement prep = conn.prepareStatement(query);
+		PreparedStatement prep = co.prepareStatement(query);
 		prep.setString(1, name);
 		prep.setString(2, surname);
 		prep.setString(3, pesel);
 		prep.executeUpdate();
-		conn.close();
+		co.close();
 		addGrades(p, p.getOcenki());
 	}
 
@@ -195,21 +192,33 @@ public class CRUD {
 		String pesel = pers.getPesel();
 		System.out.println("jestem jestem dodaje, oceny");
 		grades = (LinkedList<Integer>) pers.getOcenki();
-		Connection con = connect.connect();
-		PreparedStatement prep = con.prepareStatement(sqlAddGrade);
+		
+		PreparedStatement prep = co.prepareStatement(sqlAddGrade);
 		prep.setNString(1, pesel);
 		if (grades != null)
 			for (int i = 0; i < grades.size(); i++) {
 				prep.setInt(2, grades.get(i));
 				prep.executeUpdate();
 			}
-		con.close();
+		co.close();
+	}
+	public void addGrade(Person2 p,int grade) throws SQLException{
+		int idGrade = 0;
+		String addGrade = "Insert into grades(pesel,grade,gradeId) values (?,?,?);";
+		String pesel = p.getPesel();
+		
+		PreparedStatement prepStat = co.prepareStatement(addGrade);
+		prepStat.setString(1, pesel);
+		prepStat.setInt(2, grade);
+		prepStat.setInt(3,idGrade);
+		prepStat.executeUpdate();
+		idGrade++;
 	}
 
 	public LinkedList<Integer> getGradesFromDb(String pesel) throws SQLException {
-		Connection con = connect.connect();
+		
 		String getGradesSQL = "Select * from dzienniczek.grades WHERE pesel=?;";
-		PreparedStatement prep = con.prepareStatement(getGradesSQL);
+		PreparedStatement prep = co.prepareStatement(getGradesSQL);
 		prep.setString(1, pesel);
 		ResultSet reSet = prep.executeQuery();
 
@@ -224,9 +233,8 @@ public class CRUD {
 	}
 
 	public Person2 get1(String pesel) throws SQLException {
-		Connection con = connect.connect();
 		String get1SQL = "Select * from uczniowie where pesel=?";
-		PreparedStatement prep = con.prepareStatement(get1SQL);
+		PreparedStatement prep = co.prepareStatement(get1SQL);
 		prep.setString(1, pesel);
 		ResultSet reSet = prep.executeQuery();
 		Person2 pers = null;

@@ -18,7 +18,13 @@ public class getFromDBServlet extends HttpServlet {
         super();
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	CRUD  crud = new CRUD();
+	CRUD crud = null;
+	try {
+		crud = new CRUD();
+	} catch (SQLException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
 	
 	LinkedList<Person2> fromDB = new LinkedList<Person2>();
 	try {

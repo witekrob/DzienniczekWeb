@@ -23,7 +23,13 @@ public class find1byPeselServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 	String pesel = request.getParameter("pesel");
-	CRUD crud = new CRUD();
+	CRUD crud = null;
+	try {
+		crud = new CRUD();
+	} catch (SQLException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
 	Person2 p=null;
 	try {
 		p=crud.get1(pesel);

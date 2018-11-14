@@ -26,9 +26,17 @@
 	</form>
 
 	<form action="find1byPeselServlet">
-		<input type="text" name="pesel" value="Podaj pesel szukanego studenta">
+		<input type="text" name="pesel" title="Podaj pesel szukanego studenta">
 		<input type="submit" value="szukaj">
 
+	</form>
+	
+	<form action = "addGradeServlet">
+	<input type="text" name="pesel" title = "podaj pesel szukanego studenta">
+	<input type = "number" name="grade" title = "wpisz ocene do dodania">
+	<input type="submit" value="dodaj ocene">
+
+	
 	</form>
 </body>
 </html>
