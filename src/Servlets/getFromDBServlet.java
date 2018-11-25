@@ -1,5 +1,6 @@
+package Servlets;
 
-
+import model.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -18,7 +19,14 @@ public class getFromDBServlet extends HttpServlet {
         super();
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+		
+		
+		
 	CRUD crud = null;
+	
+	
+	
 	try {
 		crud = new CRUD();
 	} catch (SQLException e1) {
@@ -33,24 +41,9 @@ public class getFromDBServlet extends HttpServlet {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-	
-	sendToResponse(fromDB, response);
-	
-	
+	request.setAttribute("fromDB", fromDB);
+	request.getRequestDispatcher("showAll.jsp").forward(request, response);
+
 	}
-public void sendToResponse(LinkedList<Person2> lista, HttpServletResponse response) throws IOException {
-	PrintWriter print =  response.getWriter();
-	response.setContentType("text/html");
-	print.println("<html>");
 	
-	for (Person2 pers:lista) {
-		String info = pers.toString();
-	print.println(info);	
-	print.println("<br>");
-	}
-	print.println("</html>");
-	
-	
-	
-}
 }

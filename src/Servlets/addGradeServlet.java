@@ -1,4 +1,5 @@
-
+package Servlets;
+import model.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -44,14 +45,23 @@ public class addGradeServlet extends HttpServlet {
 	}
 	
 	
-	sendResponse(p,grade1, response);
+	try {
+		sendResponse(p,grade1, response);
+	} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 	
 	}
-	private void sendResponse(Person2 p, int grade, HttpServletResponse response) throws IOException {
+	private void sendResponse(Person2 p, int grade, HttpServletResponse response) throws IOException, InterruptedException {
 		PrintWriter print = response.getWriter();
 		response.setContentType("text/html");
 		print.println("<html>");
 		print.print("<h1> Udane dodanie oceny : " + grade + "  dla : " + p.toString()+"</h1>");
+	
+		
+		
+	
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
