@@ -40,10 +40,10 @@ public Person2 searchStudent(String pesel) {
 	SqlParameterSource source = new MapSqlParameterSource("pesel",pesel);
 	List<Person2> PeopleList = template.query(READ, source, BeanPropertyRowMapper.newInstance(Person2.class));
 	
+	
 	if (PeopleList!=null) {
 
 	for (Person2 p: PeopleList) {
-		System.out.println(p.toString());
 		found = p;
 	}
 	}
@@ -70,8 +70,7 @@ public List<Person2> getAll (){
 	
 	List<Person2> PeopleList = template.query(GETALL, BeanPropertyRowMapper.newInstance(Person2.class));
 	for (Person2 p:PeopleList) {
-		System.out.println(p.toString());
-	}
+		}
 	
 	return PeopleList;
 }

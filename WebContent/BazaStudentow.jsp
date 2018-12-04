@@ -25,6 +25,7 @@
 			<br>
 			Wyświetl wszystkich studentów : <input type="radio"
 			name="option" value="getAll"> <br> 
+			
 			<br> <input type="submit" value="wyslij">
 	</form>
 
