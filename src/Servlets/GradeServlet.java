@@ -53,17 +53,32 @@ public class GradeServlet extends HttpServlet {
 
 			request.getRequestDispatcher("/showGrade.jsp").forward(request, response);
 
-		} else if ("show1".equals(option)) {
+		}/*
+		działające dla jednego studenta !!!!!  tylko zamień mapę person2 na listę
+		 else if ("show1".equals(option)) {
 			Map<Person2,List<grade>> mapa  = gDao.show1(pesel);
 			List<grade> grades= gDao.show1StudentGrades(pesel);
-			UserDao userDao = new UserDao();
+			//UserDao userDao = new UserDao();
 			//Person2 student = userDao.searchStudent(pesel);
 			//request.setAttribute("grades", grades);
 			//request.setAttribute("student", student);
 			request.setAttribute("mapa", mapa);
 
 			request.getRequestDispatcher("/showGrade.jsp").forward(request, response);
+		}   */
+		else if ("show1".equals(option)) {
+			Map<List<Person2>,List<grade>> mapa  = gDao.show1(pesel);
+			List<grade> grades= gDao.show1StudentGrades(pesel);
+			//UserDao userDao = new UserDao();
+			//Person2 student = userDao.searchStudent(pesel);
+			//request.setAttribute("grades", grades);
+			//request.setAttribute("student", student);
+			request.setAttribute("mapa", mapa);
+			
+			request.getRequestDispatcher("/showGrade.jsp").forward(request, response);
 		}
+		
+		
 		/*else if ("showAllStudentsGrades".equals(option)) {
 			List<grade> grades = gDao.showAllGradeAllStudents();
 			Iterator<grade> gradIter =  grades.iterator();
@@ -79,9 +94,11 @@ public class GradeServlet extends HttpServlet {
 			}
 			*/
 		else if ("showAllStudentsGrades".equals(option)) {
-			Map<List<Person2>, List<grade>> mapa  = gDao.showAllGradeAllStudents();
-			request.setAttribute("mapa", mapa);
-			request.getRequestDispatcher("/showGrade.jsp").forward(request, response);
+			List<Person2> lista = gDao.showAllGradesAllStudents();
+			
+			//Map<List<Person2>, List<grade>> mapa  = gDao.showAllGradesAllStudents();
+			request.setAttribute("mapa", lista);
+			request.getRequestDispatcher("/showGrade1.jsp").forward(request, response);
 			
 		}
 	}

@@ -10,31 +10,31 @@
 <body>
 
 	<%
-		//Map<List<Person2>, List<grade>> mapa = (Map<List<Person2>, List<grade>>) request.getAttribute("mapa");
-		
-		Map<Person2, List<grade>> mapa = (Map<Person2, List<grade>>) request.getAttribute("mapa");
+		Map<List<Person2>, List<grade>> mapa = (Map<List<Person2>, List<grade>>) request.getAttribute("mapa");
 		Collection<List<grade>> oceny = mapa.values();
 		Iterator<List<grade>> iterOcen = oceny.iterator();
-		String name = null;
-		String surname = null;
-		Iterator<Person2> listaStudentow = mapa.keySet().iterator();
-		Person2 student = null;
-		grade ocena = null;
+		Collection<List<Person2>> osoby = mapa.keySet();
+		Iterator<List<Person2>> iterOsob = osoby.iterator();
+
+		List<Person2> studentsList = new ArrayList<Person2>();
+		while (iterOsob.hasNext()) {
+			studentsList = iterOsob.next();
+		}
+		Person2 pers = new Person2();
+		for (Person2 per : studentsList) {
+			pers=per;
+		}
 	%>
 	A oto oceny studenta o numerze PESEL :
+	<%=pers.getPesel()%>
 
-	<%
-			student = listaStudentow.next();
-
-			name = student.getName();
-			surname = student.getSurname();
-	%>
-	<%=request.getParameter("pesel")%>
 	<br> Imię :
-	<%=name%>
+	<%=pers.getName()%>
 	<br> Nazwisko :
-	<%=surname%>
-
+	<%=pers.getSurname()%>
+	<%
+		
+	%>
 	<br>
 
 	<br>
@@ -46,16 +46,17 @@
 				<th>id</th>
 			</tr>
 			<%
+				List<grade> gradesList = new ArrayList<>();
 				while (iterOcen.hasNext()) {
-					List<grade> ocenyy = iterOcen.next();
-					for (grade g : ocenyy) {
+					gradesList = iterOcen.next();
+				}
+				for (grade g : gradesList) {
 			%>
 			<tr align="center">
 				<td><%=g.getPesel()%>
 				<td><%=g.getGrade()%></td>
 				<td><%=g.getGradeId()%></td>
 				<%
-					}
 					}
 				%>
 			
