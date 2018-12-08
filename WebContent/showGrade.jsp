@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
+<body bgcolor="lightgreen">
 	<a href="/DzienniczekWeb/index.jsp">Powrót do strony głównej</a>
 	<br>
 	<%
@@ -15,10 +15,8 @@
 		List<Integer> grades = new ArrayList<Integer>();
 	%>
 	<br>
-
-	<br>
-	<table>
-		<table border="2">
+	<table border="4">
+	
 			<tr>
 				<th>Pesel</th>
 				<th>Imię</th>
@@ -26,35 +24,37 @@
 				<th>ocena</th>
 			</tr>
 
-			<tr align="center">
+			<tr align="center" bgcolor="white">
 				<%
-				
 					Person2 pers = new Person2();
 					for (Person2 per : students) {
-						
 				%>
-				<td><%=per.getPesel()%></td>
-				<td><%=per.getName()%></td>
-				<td><%=per.getSurname()%></td>
+				<td bgcolor="white" align="center"><%=per.getPesel()%></td>
+				<td bgcolor="white" align="center"><%=per.getName()%></td>
+				<td bgcolor="white" align="center"><%=per.getSurname()%></td>
 				<%
-				if (per.getOcenki() != null) {
-					grades = per.getOcenki();
-					Iterator iter = grades.iterator();
+					if (per.getOcenki() != null) {
+							grades = per.getOcenki();
+							Iterator iter = grades.iterator();
 							while (iter.hasNext()) {
 								int ocena = (Integer) iter.next();
 				%>
-				<td><%=ocena%></td>
-				<%
-						}
-				%>
-			
-			
+				<td bgcolor="silver" align="center"><%=ocena%></td>
 				<%
 					}
-		%> </tr> <%} %>
-				
-				
-			
+				%>
+
+
+				<%
+					}
+				%>
+			</tr>
+			<%
+				}
+			%>
+
+
+
 		</table>
 </body>
 </html>

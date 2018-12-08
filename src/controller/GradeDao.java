@@ -27,7 +27,6 @@ import model.Student;
 import util.ConnectionProvider;
 
 public class GradeDao {
-
 	final static String CREATE = "INSERT into grades (pesel,grade) values (:pesel,:grade);";
 	final static String READ = "SELECT gradeId,grade,pesel from grades WHERE pesel=:pesel;";
 	final static String READ1 = "select name , surname, grade,gradeId from uczniowie join grades on uczniowie.pesel=grades.pesel where uczniowie.pesel=:pesel;";
@@ -46,7 +45,6 @@ public class GradeDao {
 		grade g = new grade(pesel, grade);
 
 		BeanPropertySqlParameterSource source = new BeanPropertySqlParameterSource(g);
-
 		template.update(CREATE, source);
 
 	}

@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
+<body bgcolor="lightgreen">
 <a href="/DzienniczekWeb/index.jsp">Powrót do strony głównej</a><a><br></a>
 
 <h1> Witaj w opcji edycji bazy ocen</h1>

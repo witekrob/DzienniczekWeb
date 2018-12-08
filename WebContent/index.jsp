@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>Dzienniczek</title>
 </head>
-<body>
+<body bgcolor="lightgreen">
 <h1>Witaj</h1>
 Wybierz co chcesz zrobić : 
 
