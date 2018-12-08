@@ -55,76 +55,56 @@ public class GradeDao {
 
 		SqlParameterSource source = new MapSqlParameterSource("pesel", pesel);
 		List<grade> ga = template.query(READ, source, new BeanPropertyRowMapper(grade.class));
-
 		return ga;
 	}
 
-	/*
-	 * public List<grade> showAllGradeAllStudents() {
-	 * 
-	 * List<grade> allStudentsGrades = template.query(READall, new
-	 * BeanPropertyRowMapper(grade.class)); return allStudentsGrades; }
-	 */
-	//public Map<List<Person2>, List<grade>> showAllGradesAllStudents() {
-	public List<Person2> showAllGradesAllStudents(){	
-	List<grade> allStudentsGrades = template.query(READall, new BeanPropertyRowMapper(grade.class));
+	public List<Person2> showAllGradesAllStudents() {
+		List<grade> allStudentsGrades = template.query(READall, new BeanPropertyRowMapper(grade.class));
 		List<Person2> osoby = template.query(READstud, new BeanPropertyRowMapper(Person2.class));
 		Person2 equals = new Person2();
 
 		for (Person2 p : osoby) {
 			List<Integer> ocenki = new ArrayList<Integer>();
 			for (grade g : allStudentsGrades) {
-				
+
 				int ocena = 0;
 				if (p.getPesel().equals(g.getPesel())) {
-					
 					equals = p;
-
 					ocena = g.getGrade();
-					System.out.println("ocena : " + ocena);
-					
 					ocenki.add(ocena);
-					System.out.println("ocenki : " +ocenki); 
-
 					equals.setOcenki(ocenki);
 				}
-
 			}
 		}
-
-		System.out.println(osoby.toString());
-
 		return osoby;
-		
-		//Map<List<Person2>, List<grade>> mapa = new HashMap<List<Person2>, List<grade>>();
-		//mapa.put(osoby, allStudentsGrades);
-
-		//return mapa;
 
 	}
 
-	/*
-	 * public Map<Person2, List<grade>> show1(String pesel) { SqlParameterSource
-	 * source = new MapSqlParameterSource("pesel", pesel); List<grade> ga =
-	 * template.query(READ, source, new BeanPropertyRowMapper(grade.class)); UserDao
-	 * ud = new UserDao(); Person2 p = ud.searchStudent(pesel); int grad = 0;
-	 * List<Person2> osoby = template.query(READtry, new
-	 * BeanPropertyRowMapper(Person2.class));
-	 * 
-	 * Map<Person2, List<grade>> mapa = new HashMap<Person2, List<grade>>();
-	 * mapa.put(p, ga); System.out.println(mapa.values()); return mapa; }
-	 */
-	public Map<List<Person2>, List<grade>> show1(String pesel) {
+	public List<Person2> show1(String pesel) {
 		SqlParameterSource source = new MapSqlParameterSource("pesel", pesel);
-		List<grade> ga = template.query(READ, source, new BeanPropertyRowMapper(grade.class));
+		List<grade> OneStudentGrades = template.query(READ, source, new BeanPropertyRowMapper(grade.class));
 		UserDao ud = new UserDao();
 		Person2 p = ud.searchStudent(pesel);
 		int grad = 0;
 		List<Person2> osoby = new ArrayList<Person2>();
-		osoby.add(p);
-		Map<List<Person2>, List<grade>> mapa = new HashMap<List<Person2>, List<grade>>();
-		mapa.put(osoby, ga);
-		return mapa;
-	}
+		List<Integer> ocenki = new ArrayList<Integer>();
+		Iterator<grade> gradeIter = OneStudentGrades.iterator();
 
+		while (gradeIter.hasNext()) {
+			grade ocena = gradeIter.next();
+			grad = ocena.getGrade();
+			ocenki.add(grad);
+		}
+
+		if (p==null) { 
+		p = new Person2("Brak takiego studenta","","");
+		}else {
+			p.setOcenki(ocenki);
+
+		}
+		osoby.add(p);
+			
+		return osoby;
+
+	}
 }

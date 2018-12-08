@@ -4,6 +4,7 @@ import model.Person2;
 import model.grade;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -33,9 +34,7 @@ public class GradeServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		String pesel = request.getParameter("pesel");
-
 		GradeDao gDao = new GradeDao();
 		String option = request.getParameter("menu");
 		System.out.println(option);
@@ -48,58 +47,38 @@ public class GradeServlet extends HttpServlet {
 			Person2 student = new Person2();
 			UserDao userDao = new UserDao();
 			student = userDao.searchStudent(pesel);
-			request.setAttribute("grades", grades);
-			request.setAttribute("student", student);
+			List<Integer> oceny = new ArrayList<Integer>();
+			Iterator<grade> gradIter = grades.iterator();
+			while (gradIter.hasNext()) {
+				grade g = (grade)gradIter.next();
+				int ocena  = g.getGrade();
+				oceny.add(ocena);
+			}
+			if (student!=null) {
+			student.setOcenki(oceny);
+			}
+			else {
+			student = new Person2("nie ma takiego","","");	
+			}
+			List<Person2> lista = new ArrayList<Person2>();
+			lista.add(student);
+			request.setAttribute("lista", lista);
 
 			request.getRequestDispatcher("/showGrade.jsp").forward(request, response);
 
-		}/*
-		działające dla jednego studenta !!!!!  tylko zamień mapę person2 na listę
-		 else if ("show1".equals(option)) {
-			Map<Person2,List<grade>> mapa  = gDao.show1(pesel);
-			List<grade> grades= gDao.show1StudentGrades(pesel);
-			//UserDao userDao = new UserDao();
-			//Person2 student = userDao.searchStudent(pesel);
-			//request.setAttribute("grades", grades);
-			//request.setAttribute("student", student);
-			request.setAttribute("mapa", mapa);
+		} else if ("show1".equals(option)) {
+			List<Person2> lista = gDao.show1(pesel);
+			System.out.println("listaaa");
+			request.setAttribute("lista", lista);
 
-			request.getRequestDispatcher("/showGrade.jsp").forward(request, response);
-		}   */
-		else if ("show1".equals(option)) {
-			Map<List<Person2>,List<grade>> mapa  = gDao.show1(pesel);
-			List<grade> grades= gDao.show1StudentGrades(pesel);
-			//UserDao userDao = new UserDao();
-			//Person2 student = userDao.searchStudent(pesel);
-			//request.setAttribute("grades", grades);
-			//request.setAttribute("student", student);
-			request.setAttribute("mapa", mapa);
-			
 			request.getRequestDispatcher("/showGrade.jsp").forward(request, response);
 		}
-		
-		
-		/*else if ("showAllStudentsGrades".equals(option)) {
-			List<grade> grades = gDao.showAllGradeAllStudents();
-			Iterator<grade> gradIter =  grades.iterator();
-			List<Person2> studentsList = new LinkedList<Person2>();
-		Person2 student = new Person2();
-			while(gradIter.hasNext()) {
-				studentsList = new LinkedList<Person2>();
-				grade g = gradIter.next();
-				String pesl = g.getPesel();
-				UserDao u = new UserDao();
-				student = u.searchStudent(pesl);
-				studentsList.add(student);
-			}
-			*/
+
 		else if ("showAllStudentsGrades".equals(option)) {
 			List<Person2> lista = gDao.showAllGradesAllStudents();
-			
-			//Map<List<Person2>, List<grade>> mapa  = gDao.showAllGradesAllStudents();
-			request.setAttribute("mapa", lista);
-			request.getRequestDispatcher("/showGrade1.jsp").forward(request, response);
-			
+			request.setAttribute("lista", lista);
+			request.getRequestDispatcher("/showGrade.jsp").forward(request, response);
+
 		}
 	}
 }

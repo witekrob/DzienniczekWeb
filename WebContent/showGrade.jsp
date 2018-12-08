@@ -8,32 +8,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<a href="/DzienniczekWeb/index.jsp">Powrót do strony głównej</a>
+	<br>
 	<%
-		Map<List<Person2>, List<grade>> mapa = (Map<List<Person2>, List<grade>>) request.getAttribute("mapa");
-		Collection<List<grade>> oceny = mapa.values();
-		Iterator<List<grade>> iterOcen = oceny.iterator();
-		Collection<List<Person2>> osoby = mapa.keySet();
-		Iterator<List<Person2>> iterOsob = osoby.iterator();
-
-		List<Person2> studentsList = new ArrayList<Person2>();
-		while (iterOsob.hasNext()) {
-			studentsList = iterOsob.next();
-		}
-		Person2 pers = new Person2();
-		for (Person2 per : studentsList) {
-			pers=per;
-		}
-	%>
-	A oto oceny studenta o numerze PESEL :
-	<%=pers.getPesel()%>
-
-	<br> Imię :
-	<%=pers.getName()%>
-	<br> Nazwisko :
-	<%=pers.getSurname()%>
-	<%
-		
+		List<Person2> students = (List<Person2>) request.getAttribute("lista");
+		List<Integer> grades = new ArrayList<Integer>();
 	%>
 	<br>
 
@@ -42,23 +21,39 @@
 		<table border="2">
 			<tr>
 				<th>Pesel</th>
-				<th>Ocena</th>
-				<th>id</th>
+				<th>Imię</th>
+				<th>Nazwisko</th>
+				<th>ocena</th>
 			</tr>
-			<%
-				List<grade> gradesList = new ArrayList<>();
-				while (iterOcen.hasNext()) {
-					gradesList = iterOcen.next();
-				}
-				for (grade g : gradesList) {
-			%>
+
 			<tr align="center">
-				<td><%=g.getPesel()%>
-				<td><%=g.getGrade()%></td>
-				<td><%=g.getGradeId()%></td>
+				<%
+				
+					Person2 pers = new Person2();
+					for (Person2 per : students) {
+						
+				%>
+				<td><%=per.getPesel()%></td>
+				<td><%=per.getName()%></td>
+				<td><%=per.getSurname()%></td>
+				<%
+				if (per.getOcenki() != null) {
+					grades = per.getOcenki();
+					Iterator iter = grades.iterator();
+							while (iter.hasNext()) {
+								int ocena = (Integer) iter.next();
+				%>
+				<td><%=ocena%></td>
+				<%
+						}
+				%>
+			
+			
 				<%
 					}
-				%>
+		%> </tr> <%} %>
+				
+				
 			
 		</table>
 </body>

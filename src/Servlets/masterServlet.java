@@ -13,9 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import controller.UserDao;
 import model.Person2;
 
-/**
- * Servlet implementation class masterServlet
- */
 @WebServlet("/masterServlet")
 public class masterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -30,7 +27,7 @@ public class masterServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		System.out.println("ahiahi");
 		String option = request.getParameter("option");
 
 		String name = request.getParameter("name");

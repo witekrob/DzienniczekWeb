@@ -10,6 +10,9 @@
 <title>Lista ista wszystkich studentów</title>
 </head>
 <body>
+
+<a href="/DzienniczekWeb/index.jsp">Powrót do strony głównej</a>
+<br>
 <h1> A oto spis wszystkich studentów</h1>
 
 <%List<Person2> fromDB = (List<Person2>)request.getAttribute("list");	

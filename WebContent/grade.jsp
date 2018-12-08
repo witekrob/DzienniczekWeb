@@ -7,10 +7,12 @@
 <title>Insert title here</title>
 </head>
 <body>
+<a href="/DzienniczekWeb/index.jsp">Powrót do strony głównej</a><a><br></a>
+
 <h1> Witaj w opcji edycji bazy ocen</h1>
 
 Wybierz co chcesz zrobić :
-<form action ="GradeServlet" method ="post">
+<form action ="	GradeServlet" method ="post">
 Dodaj ocenę studentowi o podanym numerze PESEL<input type = "radio" name="menu" value="addGrade" >
 <br>
 Wyświetl wszystkie oceny danego studenta <input type="radio" name="menu" value="show1">
