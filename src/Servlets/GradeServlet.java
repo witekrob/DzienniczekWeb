@@ -43,27 +43,10 @@ public class GradeServlet extends HttpServlet {
 			int grade = Integer.parseInt(request.getParameter("grade"));
 			gDao.addGrade(pesel, grade);
 
-			List<grade> grades = gDao.show1StudentGrades(pesel);
-			Person2 student = new Person2();
-			UserDao userDao = new UserDao();
-			student = userDao.searchStudent(pesel);
-			List<Integer> oceny = new ArrayList<Integer>();
-			Iterator<grade> gradIter = grades.iterator();
-			while (gradIter.hasNext()) {
-				grade g = (grade)gradIter.next();
-				int ocena  = g.getGrade();
-				oceny.add(ocena);
-			}
-			if (student!=null) {
-			student.setOcenki(oceny);
-			}
-			else {
-			student = new Person2("nie ma takiego","","");	
-			}
-			List<Person2> lista = new ArrayList<Person2>();
-			lista.add(student);
+			List<Person2> lista = gDao.show1(pesel);
+			System.out.println("listaaa");
 			request.setAttribute("lista", lista);
-
+			request.setAttribute("option", option);
 			request.getRequestDispatcher("/showGrade.jsp").forward(request, response);
 
 		} else if ("show1".equals(option)) {
@@ -71,12 +54,14 @@ public class GradeServlet extends HttpServlet {
 			System.out.println("listaaa");
 			request.setAttribute("lista", lista);
 
+			request.setAttribute("option", option);
 			request.getRequestDispatcher("/showGrade.jsp").forward(request, response);
 		}
 
 		else if ("showAllStudentsGrades".equals(option)) {
 			List<Person2> lista = gDao.showAllGradesAllStudents();
 			request.setAttribute("lista", lista);
+			request.setAttribute("option", option);
 			request.getRequestDispatcher("/showGrade.jsp").forward(request, response);
 
 		}

@@ -1,6 +1,7 @@
 package controller;
 import model.Person2;
 import model.PersonDatabase2;
+import model.grade;
 import util.ConnectionProvider;
 
 import java.util.LinkedList;
@@ -22,6 +23,10 @@ private final static String UPDATE =
 private final static String DELETE = 
 "DELETE FROM uczniowie WHERE pesel=:pesel;";
 private final static String GETALL = "SELECT pesel,name,surname from uczniowie;";
+
+private final static String READallInfo = 
+"SELECT grades.pesel, grades.grade, grades.gradeId FROM grades WHERE grades.pesel = :pesel;";
+
 
 
 public UserDao() {
@@ -45,11 +50,9 @@ public Person2 searchStudent(String pesel) {
 
 	for (Person2 p: PeopleList) {
 		found = p;
+		}
 	}
-	}
-	else {
-		System.out.println("nie znalazłem");
-	}
+	
 	return found;
 }
 public void updatePerson (Person2 p) {

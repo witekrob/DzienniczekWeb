@@ -5,9 +5,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Baza ocen</title>
 </head>
 <body bgcolor="lightgreen">
+<H2> witaj w wykazie ocen </H2>
+<h2> wynik twojego zapytania :  <%=request.getAttribute("option") %></h2>
+
+<br>
 	<a href="/DzienniczekWeb/index.jsp">Powrót do strony głównej</a>
 	<br>
 	<%

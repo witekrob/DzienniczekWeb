@@ -6,10 +6,13 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
+<body bgcolor="lightgreen">
+	<a href="/DzienniczekWeb/index.jsp">Powrót do strony głównej</a>
+	<br>
+
 	witaj.
 
-	<form action="masterServlet" method="post">
+	<form action="StudentsServlet" method="post">
 		Wpisz Imię : <input type="text" title="name" name="name"> <br>
 		Wpisz nazwisko : <input type="text" title="surname" name="surname">
 		<br> Wpisz numer pesel : <input type="text" title="pesel"

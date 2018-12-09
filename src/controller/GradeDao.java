@@ -29,10 +29,9 @@ import util.ConnectionProvider;
 public class GradeDao {
 	final static String CREATE = "INSERT into grades (pesel,grade) values (:pesel,:grade);";
 	final static String READ = "SELECT gradeId,grade,pesel from grades WHERE pesel=:pesel;";
-	final static String READ1 = "select name , surname, grade,gradeId from uczniowie join grades on uczniowie.pesel=grades.pesel where uczniowie.pesel=:pesel;";
-	final static String READall = "SELECT * from grades";
-	final static String READtry = "select name , surname, uczniowie.pesel, grade from uczniowie join grades;";
-	final static String READstud = "select uczniowie.name , uczniowie.surname, uczniowie.pesel from uczniowie;";
+	final static String READallGrades = "SELECT * from grades";
+	final static String READtry = "select name , surname, uczniowie.pesel, grade from uczniowie join grades where uczniowie.pesel=:pesel;";
+	final static String READallStud = "select uczniowie.name , uczniowie.surname, uczniowie.pesel from uczniowie;";
 
 	NamedParameterJdbcTemplate template;
 
@@ -41,24 +40,27 @@ public class GradeDao {
 	}
 
 	public void addGrade(String pesel, int grade) {
-
+		List<Person2> osoby = template.query(READallStud, new BeanPropertyRowMapper(Person2.class));
+		Iterator osobyIter = osoby.iterator();
+		
+		while (osobyIter.hasNext()) {
+			Person2 pers= (Person2)osobyIter.next();
+			
+			String peselFromDB = pers.getPesel();
+		
+			if (pesel.equals(peselFromDB)) {
+			
+		
+		
 		grade g = new grade(pesel, grade);
 
 		BeanPropertySqlParameterSource source = new BeanPropertySqlParameterSource(g);
-		template.update(CREATE, source);
-
-	}
-
-	public List<grade> show1StudentGrades(String pesel) {
-
-		SqlParameterSource source = new MapSqlParameterSource("pesel", pesel);
-		List<grade> ga = template.query(READ, source, new BeanPropertyRowMapper(grade.class));
-		return ga;
-	}
+		template.update(CREATE, source);	
+	}}}
 
 	public List<Person2> showAllGradesAllStudents() {
-		List<grade> allStudentsGrades = template.query(READall, new BeanPropertyRowMapper(grade.class));
-		List<Person2> osoby = template.query(READstud, new BeanPropertyRowMapper(Person2.class));
+		List<grade> allStudentsGrades = template.query(READallGrades, new BeanPropertyRowMapper(grade.class));
+		List<Person2> osoby = template.query(READallStud, new BeanPropertyRowMapper(Person2.class));
 		Person2 equals = new Person2();
 
 		for (Person2 p : osoby) {
@@ -80,6 +82,12 @@ public class GradeDao {
 
 	public List<Person2> show1(String pesel) {
 		SqlParameterSource source = new MapSqlParameterSource("pesel", pesel);
+		
+		List<Person2> lll = template.query(READtry, source,new BeanPropertyRowMapper(Person2.class));
+		
+		
+		System.out.println(lll);
+		
 		List<grade> OneStudentGrades = template.query(READ, source, new BeanPropertyRowMapper(grade.class));
 		UserDao ud = new UserDao();
 		Person2 p = ud.searchStudent(pesel);
@@ -94,15 +102,16 @@ public class GradeDao {
 			ocenki.add(grad);
 		}
 
-		if (p==null) { 
-		p = new Person2("Brak takiego studenta","","");
-		}else {
+		if (p == null) {
+			p = new Person2("Brak takiego studenta", "", "");
+		} else {
 			p.setOcenki(ocenki);
 
 		}
 		osoby.add(p);
-			
+
 		return osoby;
 
 	}
+
 }
